@@ -190,7 +190,7 @@ int main(int argc, char *argv[])
         else
         {
             /* not running or travelling, get a key and handle it */
-            ch = display_getch();            
+            ch = getch();            
             
 			if(ch == 27)
 			{
