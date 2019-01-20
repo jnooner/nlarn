@@ -291,9 +291,17 @@ int main(int argc, char *argv[])
                 adj_corr = adjacent_corridor(nlarn->p->pos, ch);
                 break;
             case 'w': /* rest up to 1 mobul */
-                ch = '.';
-                run_cmd = ch;
-                end_resting = game_turn(nlarn) + 100;
+            	if(escBoolean == 0)
+				{
+         	        ch = '.';
+   		            run_cmd = ch;
+		            end_resting = game_turn(nlarn) + 100;
+	         	}
+				else
+				{
+					// #7 numeric key depressed
+            		moves_count = player_move(nlarn->p, GD_NW, run_cmd == 0);
+				}
                 break;
             }
         }
@@ -661,17 +669,6 @@ int main(int argc, char *argv[])
             	moves_count = player_move(nlarn->p, GD_EAST, run_cmd == 0);
         	}            
             break;
-		case 'w':
-			if(escBoolean == 0)
-			{
-				// do nothing
-			}
-			else
-			{
-				// #7 numeric key depressed
-            	moves_count = player_move(nlarn->p, GD_NW, run_cmd == 0);
-			}
-			break;
             /* wear/wield something */
         case 'W':
             player_equip(nlarn->p);
