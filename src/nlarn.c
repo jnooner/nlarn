@@ -124,6 +124,8 @@ int main(int argc, char *argv[])
     int ch = 0;
     gboolean adj_corr = FALSE;
     guint end_resting = 0;
+    int escBoolean = 0;
+
 
     /* main event loop */
     do
@@ -188,7 +190,14 @@ int main(int argc, char *argv[])
         else
         {
             /* not running or travelling, get a key and handle it */
-            ch = display_getch();
+            //ch = display_getch();
+            ch = getch();
+            
+            
+			if(ch == 27)
+			{
+			   escBoolean = 1;						  
+			}
 
             if (ch == '/' || ch == 'g')
             {
@@ -288,6 +297,7 @@ int main(int argc, char *argv[])
                 break;
             }
         }
+        
 
         /* get key and analyse it */
         switch (ch)
@@ -303,6 +313,16 @@ int main(int argc, char *argv[])
             break;
 
         case 'y':
+            if(escBoolean == 0)
+			{
+				// do nothing
+			}
+			else
+			{
+				// #9 numeric key depressed
+            	moves_count = player_move(nlarn->p, GD_NE, run_cmd == 0);
+			} 
+        	break;
         case '7':
         case KEY_HOME:
         case KEY_A1:
@@ -528,20 +548,29 @@ int main(int argc, char *argv[])
 
             /* drink a potion or from a fountain */
         case 'q':
-        {
-            sobject_t ms = map_sobject_at(game_map(nlarn, Z(nlarn->p->pos)),
+        {   
+        	if(escBoolean == 0)
+        	{
+        	    sobject_t ms = map_sobject_at(game_map(nlarn, Z(nlarn->p->pos)),
                                               nlarn->p->pos);
 
-            if ((ms == LS_FOUNTAIN || ms == LS_DEADFOUNTAIN)
-                    && display_get_yesno("There is a fountain here, drink from it?",
+            	if ((ms == LS_FOUNTAIN || ms == LS_DEADFOUNTAIN)
+                    	&& display_get_yesno("There is a fountain here, drink from it?",
                                          NULL, NULL, NULL))
-            {
-                moves_count = player_fountain_drink(nlarn->p);
-            }
-            else
-            {
-                player_quaff(nlarn->p);
-            }
+            	{
+                	moves_count = player_fountain_drink(nlarn->p);
+            	}
+            	else
+            	{
+                	player_quaff(nlarn->p);
+            	}
+        	}
+        	else
+        	{
+        		// #1 numeric key depressed
+        		moves_count = player_move(nlarn->p, GD_SW, run_cmd == 0);
+        	}
+
         }
         break;
 
@@ -552,7 +581,16 @@ int main(int argc, char *argv[])
 
             /* read something */
         case 'r':
-            player_read(nlarn->p);
+            if(escBoolean == 0)
+        	{
+            	player_read(nlarn->p);
+        	}
+        	else
+        	{
+        		// #2 numeric key depressed
+            	moves_count = player_move(nlarn->p, GD_SOUTH, run_cmd == 0);
+        	}
+        
             break;
 
             /* sit on throne */
@@ -562,7 +600,15 @@ int main(int argc, char *argv[])
 
             /* search */
         case 's':
-            player_search(nlarn->p);
+        	if(escBoolean == 0)
+        	{
+            	player_search(nlarn->p);
+        	}
+        	else
+        	{
+        		// #3 numeric key depressed
+            	moves_count = player_move(nlarn->p, GD_SE, run_cmd == 0);
+        	}
             break;
 
             /* take off something */
@@ -572,7 +618,15 @@ int main(int argc, char *argv[])
 
             /* throw a potion */
         case 't':
-            moves_count = potion_throw(nlarn->p);
+        	if(escBoolean == 0)
+        	{
+            	moves_count = potion_throw(nlarn->p);
+        	}
+        	else
+        	{
+        		// #4 numeric key depressed
+            	moves_count = player_move(nlarn->p, GD_WEST, run_cmd == 0);
+        	}            
             break;
 
             /* voyage (travel) */
@@ -595,11 +649,29 @@ int main(int argc, char *argv[])
             break;
 
         case 'v':
-            log_add_entry(nlarn->log, "NLarn version %d.%d.%d%s, built on %s.",
+        	if(escBoolean == 0)
+        	{
+            	log_add_entry(nlarn->log, "NLarn version %d.%d.%d%s, built on %s.",
                           VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH, GITREV,
                           __DATE__);
+        	}
+        	else
+        	{
+        		// #6 numeric key depressed
+            	moves_count = player_move(nlarn->p, GD_EAST, run_cmd == 0);
+        	}            
             break;
-
+		case 'w':
+			if(escBoolean == 0)
+			{
+				// do nothing
+			}
+			else
+			{
+				// #7 numeric key depressed
+            	moves_count = player_move(nlarn->p, GD_NW, run_cmd == 0);
+			}
+			break;
             /* wear/wield something */
         case 'W':
             player_equip(nlarn->p);
@@ -607,7 +679,15 @@ int main(int argc, char *argv[])
 
             /* swap weapons */
         case 'x':
-            weapon_swap(nlarn->p);
+        	if(escBoolean == 0)
+			{
+				weapon_swap(nlarn->p);
+			}
+			else
+			{
+				// #8 numeric key depressed
+            	moves_count = player_move(nlarn->p, GD_NORTH, run_cmd == 0);
+			}            
             break;
 
             /* configure auto-pickup */
