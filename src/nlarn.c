@@ -190,7 +190,10 @@ int main(int argc, char *argv[])
         else
         {
             /* not running or travelling, get a key and handle it */
-            ch = getch();            
+            //escBoolean = 0;        
+
+            ch = getch();    
+            
             
 			if(ch == 27)
 			{
@@ -299,6 +302,7 @@ int main(int argc, char *argv[])
 				{
 					// #7 numeric key depressed
             		moves_count = player_move(nlarn->p, GD_NW, run_cmd == 0);
+            		escBoolean = 0;
 				}
                 break;
             }
@@ -327,6 +331,7 @@ int main(int argc, char *argv[])
 			{
 				// #9 numeric key depressed
             	moves_count = player_move(nlarn->p, GD_NE, run_cmd == 0);
+            	escBoolean = 0;
 			} 
         	break;
         case '7':
@@ -575,6 +580,7 @@ int main(int argc, char *argv[])
         	{
         		// #1 numeric key depressed
         		moves_count = player_move(nlarn->p, GD_SW, run_cmd == 0);
+            	escBoolean = 0;
         	}
 
         }
@@ -595,6 +601,7 @@ int main(int argc, char *argv[])
         	{
         		// #2 numeric key depressed
             	moves_count = player_move(nlarn->p, GD_SOUTH, run_cmd == 0);
+            	escBoolean = 0;
         	}
         
             break;
@@ -614,6 +621,7 @@ int main(int argc, char *argv[])
         	{
         		// #3 numeric key depressed
             	moves_count = player_move(nlarn->p, GD_SE, run_cmd == 0);
+            	escBoolean = 0;
         	}
             break;
 
@@ -632,6 +640,7 @@ int main(int argc, char *argv[])
         	{
         		// #4 numeric key depressed
             	moves_count = player_move(nlarn->p, GD_WEST, run_cmd == 0);
+            	escBoolean = 0;
         	}            
             break;
 
@@ -665,6 +674,7 @@ int main(int argc, char *argv[])
         	{
         		// #6 numeric key depressed
             	moves_count = player_move(nlarn->p, GD_EAST, run_cmd == 0);
+            	escBoolean = 0;
         	}            
             break;
             /* wear/wield something */
@@ -682,6 +692,7 @@ int main(int argc, char *argv[])
 			{
 				// #8 numeric key depressed
             	moves_count = player_move(nlarn->p, GD_NORTH, run_cmd == 0);
+            	escBoolean = 0;
 			}            
             break;
 
